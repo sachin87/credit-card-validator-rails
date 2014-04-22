@@ -1,3 +1,8 @@
 = CreditCardValidatorRails
 
+
+ Implementing http://jquerycreditcardvalidator.com/ as a gem.
+
+
+
 This project rocks and uses MIT-LICENSE.
