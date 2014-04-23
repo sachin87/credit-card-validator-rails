@@ -12,3 +12,6 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+gem "jquery-rails"
+gem "haml-rails", group: :development

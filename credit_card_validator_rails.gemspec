@@ -7,8 +7,8 @@ require "credit_card_validator_rails/version"
 Gem::Specification.new do |s|
   s.name        = "credit_card_validator_rails"
   s.version     = CreditCardValidatorRails::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
+  s.authors     = ['Sachin Singh']
+  s.email       = ['sachin.y87@gmail.com', 'singhsachin87@yahoo.com']
   s.homepage    = "TODO"
   s.summary     = "TODO: Summary of CreditCardValidatorRails."
   s.description = "TODO: Description of CreditCardValidatorRails."
