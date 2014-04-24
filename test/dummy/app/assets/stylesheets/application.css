@@ -11,5 +11,6 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require credit_card_validator_rails/demo
  *= require_self
  */
