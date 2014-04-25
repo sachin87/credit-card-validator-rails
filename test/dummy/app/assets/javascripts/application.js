@@ -9,5 +9,7 @@
 //
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
+//= require jquery
+//= require credit_card_validator_rails/demo
 //= require credit_card_validator_rails/jquery.creditCardValidator.js
 //= require_tree .
