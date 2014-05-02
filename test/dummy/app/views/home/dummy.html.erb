@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+  <title>jQuery Credit Card Validator &mdash; Pawel Decowski</title>
+
+  <link rel="canonical" href="http://jquerycreditcardvalidator.com/">
+
+  <link rel="stylesheet" href="demo.css">
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script type="text/javascript" src="./jquery.creditCardValidator.js"></script>
+  <script type="text/javascript" src="./demo.js"></script>
+
+  <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-12777986-11']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  </script>
+</head>
+<body>
+<div id="container">
+  <h1>jQuery Credit Card Validator</h1>
+  <h2>by <a href="http://twitter.com/PawelDecowski">@PawelDecowski</a></h2>
+
+  <p>jQuery Credit Card Validator <em>detects and validates</em> credit card numbers. It&rsquo;ll
+    tell you the detected <a href="#supported_card_types">credit card type</a> and whether the number
+    length and <a href="http://en.wikipedia.org/wiki/Luhn_algorithm">Luhn checksum</a> are valid for the type of card.</p>
+
+  <div class="demo">
+    <h3>Demo</h3>
+
+    <div class="numbers">
+      <p>Try some of these numbers:</p>
+
+      <ul class="list">
+        <li>4000000000000002</li>
+        <li>4026000000000002</li>
+        <li>501800000009</li>
+        <li>5100000000000008</li>
+        <li>6011000000000004</li>
+      </ul>
+    </div>
+
+    <form>
+      <h2>Payment details</h2>
+
+      <ul>
+        <li>
+          <ul class="cards">
+            <li class="visa">Visa</li>
+            <li class="visa_electron">Visa Electron</li>
+            <li class="mastercard">MasterCard</li>
+            <li class="maestro">Maestro</li>
+            <li class="discover">Discover</li>
+          </ul>
+        </li>
+
+        <li>
+          <label for="card_number">Card number</label>
+          <input type="text" name="card_number" id="card_number">
+        </li>
+
+        <li class="vertical">
+          <ul>
+            <li>
+              <label for="expiry_date">Expiry date <small>mm/yy</small></label>
+              <input type="text" name="expiry_date" id="expiry_date" maxlength="5">
+            </li>
+
+            <li>
+              <label for="cvv">CVV</label>
+              <input type="text" name="cvv" id="cvv" maxlength="3">
+            </li>
+          </ul>
+        </li>
+
+        <li class="vertical maestro">
+          <ul>
+            <li>
+              <label for="issue_date">Issue date <small>mm/yy</small></label>
+              <input type="text" name="issue_date" id="issue_date" maxlength="5">
+            </li>
+
+            <li>
+              <span class="or">or</span>
+              <label for="issue_number">Issue number</label>
+              <input type="text" name="issue_number" id="issue_number" maxlength="2">
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <label for="name_on_card">Name on card</label>
+          <input type="text" name="name_on_card" id="name_on_card">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <div class="example">
+    <h3>How to use it</h3>
+
+    <p>The function’s signature is:</p>
+    <pre><code>.validateCreditCard( callback(result) [, options] )</code></pre>
+
+    <p>So the basic usage looks like this:</p>
+
+            <pre><code>$('#cc_number').validateCreditCard(function(result)
+              {
+              alert('CC type: ' + result.card_type.name
+              + '\nLength validation: ' + result.length_valid
+              + '\nLuhn validation: + result.luhn_valid');
+              });</code></pre>
+
+    <p>Or with <code>options</code> specified:</p>
+
+    <pre><code>$('#cc_number').validateCreditCard(function(result) { ... }, { accept: ['visa', 'mastercard'] })</code></pre>
+  </div>
+
+  <h3>How it works</h3>
+
+  <p>jQuery Credit Card Validator is written in <a href="http://www.coffeescript.org/">CoffeeScript</a>
+    and (surprise, surprise!) is a <a href="http://jquery.com/">jQuery</a> plugin. It attaches to the
+    <a href="https://developer.mozilla.org/en/DOM/DOM_event_reference/input">input event</a> (with a fallback
+    to the <a href="https://developer.mozilla.org/en/DOM/DOM_event_reference">keyup event</a>) and, every time
+    the number in the <code>input</code> field changes, it calls a function defined by you. It passes a single
+    parameter to the function &mdash; an object with 3 properties:</p>
+
+  <ul class="list">
+    <li>
+      <code>card_type</code> &mdash; an object with the below properties, or <code>null</code> if card type unknown
+      <ul class="list">
+        <li><code>name</code> &mdash; one of the <a href="#supported_card_types">strings describing the card type</a>, eg <code>visa</code></li>
+        <li><code>pattern</code> &mdash; regular expression used to match the card type, eg <code>/^4/</code></li>
+        <li><code>length</code> &mdash; an array of valid lengths for the card type, eg <code>[13, 16]</code>
+      </ul>
+    </li>
+    <li><code>length_valid</code> &mdash; <code>true</code> if the number length is valid, <code>false</code> otherwise</li>
+    <li><code>luhn_valid</code> &mdash; <code>true</code> if the Luhn checksum is correct, <code>false</code> otherwise</li>
+  </ul>
+
+  <p>The second parameter currently supports one option:</p>
+
+  <ul class="list">
+    <li><code>accept</code> (optional) — list of accepted credit cards, eg <code>['visa', 'amex']</code>; if not specified, all supported cards are accepted</li>
+  </ul>
+
+  <h3 id="supported_card_types">Supported card types and corresponding string descriptors</h3>
+
+  <ul class="list">
+    <li>American Express &mdash; <code>amex</code></li>
+    <li>Diners Club Carte Blanche &mdash; <code>diners_club_carte_blanche</code></li>
+    <li>Diners Club International &mdash; <code>diners_club_international</code></li>
+    <li>Diners Club United States &amp; Canada &mdash; <code>mastercard</code> (it is actually a MasterCard)</li>
+    <li>Discover Card &mdash; <code>discover</code></li>
+    <li>JCB &mdash; <code>jcb</code></li>
+    <li>Laser &mdash; <code>laser</code></li>
+    <li>Maestro &mdash; <code>maestro</code></li>
+    <li>MasterCard &mdash; <code>mastercard</code></li>
+    <li>Visa &mdash; <code>visa</code></li>
+    <li>Visa Electron &mdash; <code>visa_electron</code></li>
+  </ul>
+
+  <div class="download">
+    <h3>Like what you see?</h3>
+
+    <p><a class="button" href="https://github.com/PawelDecowski/jQuery-CreditCardValidator/zipball/master">Download now</a></p>
+  </div>
+
+  <div class="footer">
+    <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-8628069815995906"
+         data-ad-slot="9259785664"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <p>&copy;2012–2013 <a href="http://twitter.com/PawelDecowski">Pawel Decowski</a></p>
+    <p class="fork_me"><a href="http://github.com/PawelDecowski/jQuery-CreditCardValidator/"><img src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a></p>
+    </p>
+  </div>
+</body>
+</html>
