@@ -9,7 +9,17 @@
 //
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
+
 //= require jquery
 //= require credit_card_validator_rails/demo
 //= require credit_card_validator_rails/jquery.creditCardValidator.js
 //= require_tree .
+
+$(document).ready(function(){
+  $('#cc_number').validateCreditCard(function(result)
+    {
+        alert('CC type: ' + result.card_type.name
+            + '\nLength validation: ' + result.length_valid
+            + '\nLuhn validation: + result.luhn_valid');
+    });
+})

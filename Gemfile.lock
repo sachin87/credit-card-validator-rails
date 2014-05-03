@@ -109,4 +109,5 @@ DEPENDENCIES
   credit_card_validator_rails!
   debugger
   haml-rails
+  jquery-rails
   sqlite3

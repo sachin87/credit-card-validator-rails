@@ -1,19 +1,37 @@
-= form_tag ''
-.form-inline
-  = label_tag :card_number, 'Card Number', class: 'text-sm text-normal'
-  = text_field_tag :card_number_1, nil, maxlength: 4, id: 'card-no_1'
-  = text_field_tag :card_number_2, nil, maxlength: 4, id: 'card-no_2'
-  = text_field_tag :card_number_3, nil, maxlength: 4, id: 'card-no_3'
-  = text_field_tag :card_number_4, nil, maxlength: 4, id: 'card-no_4'
-  = image_tag('payment/mc-cc.png')
-.form-inline
-  = label_tag :card_name, 'Name on Card', class: 'text-sm text-normal'
-  = text_field_tag :card_name, nil, class: 'form-control nm', id: 'card-name'
-.form-inline
-  = label_tag :expiry, 'Expiry', class: 'text-sm text-normal'
-  = select_tag :expiry_month , options_for_select('01'..'12'), class: 'form-control ex', id: 'expry-mon'
-  = select_tag :expiry_year , options_for_select(Date.today.year..Date.today.year + 16), |
-    class: 'form-control ex', id: 'expry-yr'                             |
-  = number_field_tag :cvv, nil, class: 'form-control ex', maxlength: 3, id: 'payment_cvv'
-  %span.text-sm
-    = link_to 'CVV', '#', class: 'cvv'
+= form_tag '/' do
+  %h2 Payment details
+  %ul
+    %li
+      %ul.cards
+        %li.visa Visa
+        %li.visa_electron Visa Electron
+        %li.mastercard MasterCard
+        %li.maestro Maestro
+        %li.discover Discover
+    %li
+      = label_tag :card_number, 'Card Number'
+      = text_field_tag :card_number, nil
+    %li.vertical
+      %ul
+        %li
+          = label_tag :expiry_date do
+            Expiry Date
+            %small mm/yy
+          = text_field_tag :expiry_date, nil
+        %li
+          = label_tag :cvv, 'Card Number'
+          = text_field_tag :cvv, nil
+    %li.vertical.maestro
+      %ul
+        %li
+          = label_tag :issue_date do
+            Issue date
+            %small mm/yy
+          = text_field_tag :issue_date, nil
+        %li
+          %span.or or
+          = label_tag :issue_number, "Issue Number"
+          = text_field_tag :issue_number, nil
+    %li
+      = label_tag :name_on_card, "Name on card"
+      = text_field_tag :name_on_card, nil
