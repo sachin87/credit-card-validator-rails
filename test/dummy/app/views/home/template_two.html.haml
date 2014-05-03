@@ -1,0 +1,23 @@
+= form_tag '/' do
+  %h2 Payment details
+  %ul
+    %li
+      %ul.cards
+        %li.visa Visa
+        %li.visa_electron Visa Electron
+        %li.mastercard MasterCard
+        %li.maestro Maestro
+        %li.discover Discover
+    %li
+      = label_tag :card_number, 'Card Number'
+      = text_field_tag :card_number, nil, id: :card_number
+    %li.vertical
+      %ul
+        %li
+          = label_tag :expiry_date, 'Expiry Date'
+          = text_field_tag :expiry_date , nil, id:  :expiry_date
+    %li
+      = number_field_tag :cvv, nil, maxlength: 3, id: :cvv
+    %li
+      = label_tag :card_name, 'Name on Card'
+      = text_field_tag :card_name, nil, id: :card_name
