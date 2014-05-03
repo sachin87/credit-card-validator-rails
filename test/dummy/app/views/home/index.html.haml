@@ -10,28 +10,28 @@
         %li.discover Discover
     %li
       = label_tag :card_number, 'Card Number'
-      = text_field_tag :card_number, nil, id: :card_number
+      = text_field_tag :card_number, nil, id: :card_number, autocomplete: :off
     %li.vertical
       %ul
         %li
           = label_tag :expiry_date do
             Expiry Date
             %small mm/yy
-          = text_field_tag :expiry_date, nil, maxlength: "5", id: :expiry_date
+          = text_field_tag :expiry_date, nil, maxlength: "5", id: :expiry_date, autocomplete: :off
         %li
           = label_tag :cvv, 'Card Number'
-          = text_field_tag :cvv, nil, maxlength: "3", id: :cvv
+          = text_field_tag :cvv, nil, maxlength: "3", id: :cvv, autocomplete: :off
     %li.vertical.maestro
       %ul
         %li
           = label_tag :issue_date do
             Issue date
             %small mm/yy
-          = text_field_tag :issue_date, nil, maxlength: "5", id: :issue_date
+          = text_field_tag :issue_date, nil, maxlength: "5", id: :issue_date, autocomplete: :off
         %li
           %span.or or
           = label_tag :issue_number, "Issue Number"
-          = text_field_tag :issue_number, nil, maxlength: "2", id: :issue_number
+          = text_field_tag :issue_number, nil, maxlength: "2", id: :issue_number, autocomplete: :off
     %li
       = label_tag :name_on_card, "Name on card"
-      = text_field_tag :name_on_card, nil, id: :name_on_card
+      = text_field_tag :name_on_card, nil, id: :name_on_card, autocomplete: :off
